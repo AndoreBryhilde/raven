@@ -1,0 +1,76 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "dotnet build",
+        "command": "dotnet",
+        "type": "process",
+        "args": ["build", "${workspaceFolder}/Backend/Raven.csproj", "/property:GenerateFullPaths=true", "/consoleloggerparameters:NoSummary"],
+        "problemMatcher": "$msCompile"
+      },
+      {
+        "label": "dotnet publish",
+        "command": "dotnet",
+        "type": "process",
+        "args": ["publish", "${workspaceFolder}/Backend/Raven.csproj", "/property:GenerateFullPaths=true", "/consoleloggerparameters:NoSummary"],
+        "problemMatcher": "$msCompile"
+      },
+      {
+        "label": "dotnet watch",
+        "command": "dotnet",
+        "type": "process",
+        "args": ["watch", "run", "--project", "${workspaceFolder}/Backend/Raven.csproj"],
+        "problemMatcher": "$msCompile"
+      },
+      {
+        "label": "dotnet test",
+        "command": "dotnet",
+        "type": "process",
+        "args": ["test", "/p:CollectCoverage=true", "/p:CoverletOutputFormat=lcov", "/p:CoverletOutput=${workspaceFolder}/Backend.Test/TestResults/lcov.info ","/p:ExcludeByFile=**/*Migrations/*.cs"],
+        "problemMatcher": "$msCompile"
+      },
+      {
+        "label": "vue lint",
+        "command": "yarn eslint --ext .vue,.js --fix src/**.*",
+        "group": "build",
+        "type": "shell"
+      },
+      {
+        "label": "vite build",
+        "dependsOn": ["vue lint"],
+        "command": "yarn vite build",
+        "group": "build",
+        "type": "shell"
+      },
+      {
+        "label": "docker build",
+        "dependsOrder": "sequence",
+        "dependsOn": ["vite build", "dotnet publish"],
+        "command": "docker build --pull --rm -f \"dockerfile\" -t Raven:latest \".\"",
+        "group": "build",
+        "type": "shell",
+        "problemMatcher": []
+      },
+      {
+        "label": "docker save",
+        "dependsOn": ["docker build"],
+        "command": "docker save Raven:latest -o Raven.tar; gzip -f Raven.tar",
+        "group": "build",
+        "type": "shell"
+      },
+      {
+        "label": "docker run",
+        "command": "docker run -d -p 62898:62898 --name Raven Raven:latest",
+        "group": "build",
+        "type": "shell"
+      },
+      {
+        "label": "generate coverage report",
+        "command": "reportgenerator",
+        "type": "shell",
+        "args": ["-reports:${workspaceFolder}/Backend.Test/TestResults/lcov.info", "-targetdir:${workspaceFolder}/Backend.Test/TestResults/coveragereport"],
+        "problemMatcher": []
+      }
+    ]
+  }
+  
