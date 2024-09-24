@@ -8,7 +8,7 @@ import eslint from 'vite-plugin-eslint';
 export default defineConfig({
   plugins: [vue(), eslint()],
   build: {
-    outDir: './Backend/wwwroot',
+    outDir: './backend/wwwroot',
   },
   resolve: {
     alias: {
@@ -18,7 +18,7 @@ export default defineConfig({
   server: {
     proxy: {
       '^/api': {
-        target: 'http://127.0.0.1:8080',
+        target: 'http://127.0.0.1:5225',
         changeOrigin: true,
       },
     },

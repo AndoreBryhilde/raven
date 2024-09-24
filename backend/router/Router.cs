@@ -1,3 +1,5 @@
+using Raven.Api;
+
 namespace Raven.Router;
 
 // 路由路徑
@@ -37,6 +39,7 @@ public class Router
     public static void Map(WebApplication app)
     {
         app.MapGet("/api/version", ()=>"Hello world！"); // 取得版號
+        app.MapPost("/api/googleauth", Token.CheckToken); // 取得版號
 
         // 需檢查授權路由
         var myGroup = app.MapGroup("/api");

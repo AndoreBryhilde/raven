@@ -33,11 +33,6 @@ import router from './router';
 
 const app = createApp(App);
 
-window.router = router;
-window.Swal = Swal;
-window.echarts = echarts;
-window.emitter = mitt();
-
 app.use(router);
 app.use(primevue);
 
@@ -58,4 +53,21 @@ app.component('Row', Row);
 app.component('Sidebar', Sidebar);
 app.component('Textarea', Textarea);
 
+window.router = router;
+window.Swal = Swal;
+window.echarts = echarts;
+window.emitter = mitt();
+
+window.GoogleID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
 app.mount('#app');
+
+// Google 初始化
+window.onload = () => {
+  window.google.accounts.id.initialize({
+    client_id: window.GoogleID,
+    nonce: Math.random(),
+    callback: (o) => global.emitter.emit('GoogleLogon', o),
+  });
+  window.emitter.emit('RenderGoogleLogin'); // 繪製 Google 登入按鈕
+};

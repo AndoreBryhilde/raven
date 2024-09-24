@@ -5,28 +5,28 @@
         "label": "dotnet build",
         "command": "dotnet",
         "type": "process",
-        "args": ["build", "${workspaceFolder}/Backend/Raven.csproj", "/property:GenerateFullPaths=true", "/consoleloggerparameters:NoSummary"],
+        "args": ["build", "${workspaceFolder}/backend/Raven.csproj", "/property:GenerateFullPaths=true", "/consoleloggerparameters:NoSummary"],
         "problemMatcher": "$msCompile"
       },
       {
         "label": "dotnet publish",
         "command": "dotnet",
         "type": "process",
-        "args": ["publish", "${workspaceFolder}/Backend/Raven.csproj", "/property:GenerateFullPaths=true", "/consoleloggerparameters:NoSummary"],
+        "args": ["publish", "${workspaceFolder}/backend/Raven.csproj", "/property:GenerateFullPaths=true", "/consoleloggerparameters:NoSummary"],
         "problemMatcher": "$msCompile"
       },
       {
         "label": "dotnet watch",
         "command": "dotnet",
         "type": "process",
-        "args": ["watch", "run", "--project", "${workspaceFolder}/Backend/Raven.csproj"],
+        "args": ["watch", "run", "--project", "${workspaceFolder}/backend/Raven.csproj"],
         "problemMatcher": "$msCompile"
       },
       {
         "label": "dotnet test",
         "command": "dotnet",
         "type": "process",
-        "args": ["test", "/p:CollectCoverage=true", "/p:CoverletOutputFormat=lcov", "/p:CoverletOutput=${workspaceFolder}/Backend.Test/TestResults/lcov.info ","/p:ExcludeByFile=**/*Migrations/*.cs"],
+        "args": ["test", "/p:CollectCoverage=true", "/p:CoverletOutputFormat=lcov", "/p:CoverletOutput=${workspaceFolder}/backend.Test/TestResults/lcov.info ","/p:ExcludeByFile=**/*Migrations/*.cs"],
         "problemMatcher": "$msCompile"
       },
       {
@@ -68,7 +68,7 @@
         "label": "generate coverage report",
         "command": "reportgenerator",
         "type": "shell",
-        "args": ["-reports:${workspaceFolder}/Backend.Test/TestResults/lcov.info", "-targetdir:${workspaceFolder}/Backend.Test/TestResults/coveragereport"],
+        "args": ["-reports:${workspaceFolder}/backend.Test/TestResults/lcov.info", "-targetdir:${workspaceFolder}/backend.Test/TestResults/coveragereport"],
         "problemMatcher": []
       }
     ]

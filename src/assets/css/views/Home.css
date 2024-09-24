@@ -1,0 +1,25 @@
+.scaling-margin-left {
+    margin-left: 169px;
+  }
+  .scaling {
+    transition: margin-left 0.5s;
+  }
+  
+  .slide-enter-active,
+  .slide-leave-active {
+    transition: all 0.5s ease;
+  }
+  
+  .slide-leave-from,
+  .slide-enter-to {
+    position: fixed;
+    left: 0;
+  }
+  
+  .slide-enter-from,
+  .slide-leave-to {
+    position: fixed;
+    left: 0;
+    transform: translateX(-100%);
+  }
+  

@@ -1,4 +1,5 @@
 using Raven.Router;
+using Raven.Helper;
 // using System.Text;
 // using Microsoft.EntityFrameworkCore;
 // using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -6,16 +7,6 @@ using Raven.Router;
 // using Microsoft.AspNetCore.Authorization;
 // using System.Security.Claims;
 
-// var builder = WebApplication.CreateBuilder(args);
-// var app = builder.Build();
-
-// app.MapGet("/", () =>
-// {
-//     Console.WriteLine("Hello World!");
-//     return "This is a GET";
-// });
-
-// app.Run();
 // 網頁應用建造器
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,12 +17,13 @@ var builder = WebApplication.CreateBuilder(args);
 // );
 
 // 設定其他依賴注入
-// builder.Services.AddHttpContextAccessor();
-// builder.Services.AddMemoryCache(); // 註冊快取
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddHttpClient();
+builder.Services.AddMemoryCache(); // 註冊快取
 // builder.Services.AddSingleton<AuthorizationHelper>();
 // builder.Services.AddSingleton<JWTHelper>();
 // builder.Services.AddSingleton<MailHelper>();
-// builder.Services.AddSingleton<MemoryCacheHelper>();
+builder.Services.AddSingleton<MemoryCacheHelper>();
 // builder.Services.AddScoped<IAuthorizationHandler, AuthorizationHandlerHelper>();
 // builder.Services.AddScoped<Authorization>();
 

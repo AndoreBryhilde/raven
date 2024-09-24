@@ -6,7 +6,7 @@
         <img alt="bigLogo" src="/Raven_Dragon.png" />
       </div>
       <div class="col-6 xl:flex flex-column justify-content-center align-items-center">
-        <Button label="Login with Google Account" class="col-6" />
+        <div ref="googleButton" />
         <Button label="Signin with Google Account" class="col-6 mt-3" />
       </div>
     </div>
@@ -15,34 +15,44 @@
 /* c8 ignore stop */
 
 <script setup>
-// import { ref } from 'vue';
-// import LoginService from '../services/LoginService';
-// import UtilityService from '../services/UtilityService';
-// import UserService from '../services/UserService';
+import { ref, onMounted } from 'vue';
+import UserService from '../services/UserService';
 
-// const { Alert, IsEmailValid } = UtilityService; // 提示訊息 檢查Email格式
+// 參考 Google 登入按鈕的 DOM 元素
+const googleButton = ref(null);
 
-// const Email = ref(''); // 帳號
-// const Password = ref(''); // 密碼
-// const PasswordInput = ref(); // 密碼輸入框
-// const IsRemember = ref(false); // 記住密碼
+// 處理 Google 回應
+const handleCredentialResponse = (response) => {
+  const idToken = response.credential;
 
-// // 登入
-// const Login = () => {
-//   LoginService.Login(Email.value.trim(), Password.value.trim(), IsRemember.value)
-//     .then(UserService.GetCurrentUser) // 若 登入成功 取得 當前使用者資訊
-//     .then(() => Alert('登入成功!', 'success'))
-//     .then(() => window.router.push('/'))
-//     .catch(() => Alert('登入失敗!', 'error'));
-// };
+  // 發送 ID token 到後端進行驗證
+  fetch('/api/googleauth', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ Token: idToken }),
+  })
+    .then((res) => res.json())
+    .then((o) => {
+      UserService.GetCurrentUser(idToken, o.name); // 取得 當前使用者資訊
+      window.router.push('/');
+    })
+    .catch((error) => console.error('網絡錯誤', error));
+};
 
-// // 忘記密碼
-// const SendResetPasswordMail = () => {
-//   if (!Email.value) return Alert('未輸入信箱!', 'error');
-//   if (!IsEmailValid(Email.value)) return Alert('信箱格式錯誤!', 'error'); // 檢查信箱格式是否正確
+// 在組件掛載後初始化 Google 登入按鈕
+onMounted(() => {
+  if (window.google) {
+    window.google.accounts.id.initialize({
+      client_id: window.GoogleID, // 使用環境變量中的 Client ID
+      callback: handleCredentialResponse,
+    });
 
-//   return LoginService.SendResetPasswordMail(Email.value)
-//     .then(() => Alert('已發送重設密碼郵件至填寫的信箱!', 'success'))
-//     .catch(() => Alert('傳送信件失敗!', 'error'));
-// };
+    window.google.accounts.id.renderButton(googleButton.value, {
+      theme: 'filled_black',
+      size: 'large',
+    });
+  } else {
+    console.error('Google API 未加載');
+  }
+});
 </script>

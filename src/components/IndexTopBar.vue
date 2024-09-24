@@ -1,10 +1,10 @@
 /* c8 ignore start */
 <template>
-  <div class="flex justify-content-between py-2 px-3 topbar align-items-center fixed w-full bg-white">
+  <div class="flex justify-content-between py-2 px-3 topbar align-items-center fixed w-full">
     <div class="flex align-items-center text-2xl font-font-font-semibold text-blue-400">
       <Button icon="pi pi-bars text-2xl" class="text-gray-800 bg-white mr-2" text @click="ChangeSideBarDisplay" />
       <router-link to="/" class="logo">
-        <img alt="Logo" src="/images/Logo.png" class="ml-1 w-6rem" />
+        <img alt="Logo" src="/Raven_Dragon.png" class="ml-1 w-6rem" />
       </router-link>
       <div class="hidden lg:inline">Raven</div>
     </div>
@@ -22,9 +22,10 @@
 <script setup>
 import { ref } from 'vue';
 import APIService from '../services/APIService';
+import UserService from '../services/UserService';
 
 const { router } = window; // 路由
-const UserName = ref(APIService.UserName); // 使用者姓名
+const UserName = ref(UserService.UserLoginID); // 使用者姓名
 
 // 登出
 const Logout = async () => {

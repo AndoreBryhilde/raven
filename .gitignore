@@ -504,4 +504,5 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-Backend.Test/lcov.info
+backend.Test/lcov.info
+.env
